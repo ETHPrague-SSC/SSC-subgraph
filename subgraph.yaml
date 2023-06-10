@@ -1,0 +1,29 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SupplyChain
+    network: goerli
+    source:
+      address: "0xD8fC9810b8557C2D60D85535394045F814193A65"
+      abi: SupplyChain
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AdminAdded
+        - Log
+        - PackageSnapshotAdded
+      abis:
+        - name: SupplyChain
+          file: ./abis/SupplyChain.json
+      eventHandlers:
+        - event: AdminAdded(address)
+          handler: handleAdminAdded
+        - event: Log(string)
+          handler: handleLog
+        - event: PackageSnapshotAdded(((address),uint256,string,uint256,bool))
+          handler: handlePackageSnapshotAdded
+      file: ./src/supply-chain.ts

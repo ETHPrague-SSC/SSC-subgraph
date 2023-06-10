@@ -1,55 +1,59 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { log} from "@graphprotocol/graph-ts"
 import {
-  SupplyChain,
-  AdminAdded,
-  Log,
-  PackageSnapshotAdded
+    SupplyChain,
+    AdminAdded,
+    PackageSnapshotAdded, AdminRemoved
 } from "../generated/SupplyChain/SupplyChain"
-import { ExampleEntity } from "../generated/schema"
+import {Admin, Branch, PackageSnapshot} from "../generated/schema"
 
-export function handleAdminAdded(event: AdminAdded): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.param0 = event.params.param0
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.admins(...)
-  // - contract.snapshotNumber(...)
-  // - contract.snapshots(...)
+function addObjToArray<T>(array: T[] | null, obj: T): T[] {
+    if (array == null) {
+        array = new Array<T>()
+    }
+    array.push(obj)
+    return array
 }
 
-export function handleLog(event: Log): void {}
+export function handleAdminAdded(event: AdminAdded): void {
+    const sender = event.params.param0;
+    const admin = new Admin(sender);
+    admin.isAdmin = true;
+    admin.save();
+}
 
-export function handlePackageSnapshotAdded(event: PackageSnapshotAdded): void {}
+export function handleAdminRemoved(event: AdminRemoved): void {
+    const sender = event.params.param0;
+    const admin = Admin.load(sender);
+    if (!admin) {
+        log.error("Admin {} does not exist", [sender.toString()]);
+        return;
+    }
+    admin.isAdmin = true;
+    admin.save();
+}
+
+export function handlePackageSnapshotAdded(event: PackageSnapshotAdded): void {
+    const snapshot = new PackageSnapshot(event.params.id.toString());
+    snapshot.created = event.params.snapshot.created;
+    snapshot.handler = event.params.snapshot.handler.addr;
+    let branch: Branch | null = null;
+    if (event.params.snapshot.parent.toU64() != 0) {
+        snapshot.parent = event.params.snapshot.parent.toString();
+        let tempSnapshot = PackageSnapshot.load(snapshot.parent!)!;
+        while (tempSnapshot.parent != null) {
+            tempSnapshot = PackageSnapshot.load(tempSnapshot.parent!)!;
+        }
+        branch = Branch.load(tempSnapshot.id);
+    }
+
+    if (branch) {
+        branch.snapshots = addObjToArray(branch.snapshots, snapshot.id);
+    } else {
+        branch = new Branch(snapshot.id);
+        branch.head = snapshot.id;
+        branch.snapshots = [snapshot.id];
+    }
+
+    snapshot.save();
+    branch.save()
+}

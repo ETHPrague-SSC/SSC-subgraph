@@ -1,0 +1,19 @@
+type PackageSnapshot @entity(immutable: true) {
+    id: ID!
+    handler: Bytes!
+    parent: PackageSnapshot
+    created: BigInt!
+    child: PackageSnapshot @derivedFrom(field: "parent")
+}
+
+type Admin @entity(immutable: true) {
+    id: Bytes!
+    isAdmin: Boolean!
+}
+
+type Branch @entity {
+    id: ID!
+    head: PackageSnapshot
+    snapshots: [PackageSnapshot!]
+}
+

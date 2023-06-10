@@ -6,11 +6,11 @@ dataSources:
     name: SupplyChain
     network: goerli
     source:
-      address: "0xD8fC9810b8557C2D60D85535394045F814193A65"
+      address: "0xAB1b0f09494d208D403a00ae905DeEea47807012"
       abi: SupplyChain
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - AdminAdded
@@ -22,8 +22,8 @@ dataSources:
       eventHandlers:
         - event: AdminAdded(address)
           handler: handleAdminAdded
-        - event: Log(string)
-          handler: handleLog
-        - event: PackageSnapshotAdded(((address),uint256,string,uint256,bool))
+        - event: AdminRemoved(address)
+          handler: handleAdminRemoved
+        - event: PackageSnapshotAdded(((address),uint256,string,uint256,bool),uint256)
           handler: handlePackageSnapshotAdded
       file: ./src/supply-chain.ts

@@ -1,5 +1,9 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -11,6 +15,19 @@
       }
     ],
     "name": "AdminAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "AdminRemoved",
     "type": "event"
   },
   {
@@ -33,21 +50,47 @@
         "components": [
           {
             "components": [
-              { "internalType": "address", "name": "addr", "type": "address" }
+              {
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+              }
             ],
             "internalType": "struct SupplyChain.Department",
             "name": "handler",
             "type": "tuple"
           },
-          { "internalType": "uint256", "name": "parent", "type": "uint256" },
-          { "internalType": "string", "name": "description", "type": "string" },
-          { "internalType": "uint256", "name": "created", "type": "uint256" },
-          { "internalType": "bool", "name": "exists", "type": "bool" }
+          {
+            "internalType": "uint256",
+            "name": "parent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "created",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
+          }
         ],
         "indexed": false,
         "internalType": "struct SupplyChain.PackageSnapshot",
         "name": "snapshot",
         "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       }
     ],
     "name": "PackageSnapshotAdded",
@@ -55,8 +98,16 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "parent", "type": "uint256" },
-      { "internalType": "string", "name": "description", "type": "string" }
+      {
+        "internalType": "uint256",
+        "name": "parent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
     ],
     "name": "addPackageSnapshot",
     "outputs": [],
@@ -64,9 +115,21 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "admins",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -79,27 +142,66 @@
   },
   {
     "inputs": [],
+    "name": "makeMeUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "snapshotNumber",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "snapshots",
     "outputs": [
       {
         "components": [
-          { "internalType": "address", "name": "addr", "type": "address" }
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          }
         ],
         "internalType": "struct SupplyChain.Department",
         "name": "handler",
         "type": "tuple"
       },
-      { "internalType": "uint256", "name": "parent", "type": "uint256" },
-      { "internalType": "string", "name": "description", "type": "string" },
-      { "internalType": "uint256", "name": "created", "type": "uint256" },
-      { "internalType": "bool", "name": "exists", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "parent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "created",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "exists",
+        "type": "bool"
+      }
     ],
     "stateMutability": "view",
     "type": "function"

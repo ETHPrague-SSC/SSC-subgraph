@@ -3,6 +3,9 @@ type PackageSnapshot @entity(immutable: true) {
     handler: Bytes!
     parent: PackageSnapshot
     created: BigInt!
+    name: String!
+    description: String!
+    status: Int!
     child: PackageSnapshot @derivedFrom(field: "parent")
 }
 

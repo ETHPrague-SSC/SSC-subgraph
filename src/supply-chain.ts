@@ -16,7 +16,10 @@ function addObjToArray<T>(array: T[] | null, obj: T): T[] {
 
 export function handleAdminAdded(event: AdminAdded): void {
     const sender = event.params.param0;
-    const admin = new Admin(sender);
+    let admin = Admin.load(sender);
+    if (!admin) {
+        admin = new Admin(sender);
+    }
     admin.isAdmin = true;
     admin.save();
 }
@@ -36,6 +39,9 @@ export function handlePackageSnapshotAdded(event: PackageSnapshotAdded): void {
     const snapshot = new PackageSnapshot(event.params.id.toString());
     snapshot.created = event.params.snapshot.created;
     snapshot.handler = event.params.snapshot.handler.addr;
+    snapshot.description = event.params.snapshot.description;
+    snapshot.name = event.params.snapshot.name;
+    snapshot.status = event.params.snapshot.status;
     let branch: Branch | null = null;
     if (event.params.snapshot.parent.toU64() != 0) {
         snapshot.parent = event.params.snapshot.parent.toString();

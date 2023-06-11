@@ -66,6 +66,16 @@
             "type": "uint256"
           },
           {
+            "internalType": "enum SupplyChain.PackageSnapshotStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
             "internalType": "string",
             "name": "description",
             "type": "string"
@@ -104,13 +114,29 @@
         "type": "uint256"
       },
       {
+        "internalType": "enum SupplyChain.PackageSnapshotStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
         "internalType": "string",
         "name": "description",
         "type": "string"
       }
     ],
     "name": "addPackageSnapshot",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -186,6 +212,16 @@
         "internalType": "uint256",
         "name": "parent",
         "type": "uint256"
+      },
+      {
+        "internalType": "enum SupplyChain.PackageSnapshotStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
         "internalType": "string",

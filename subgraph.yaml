@@ -6,8 +6,9 @@ dataSources:
     name: SupplyChain
     network: goerli
     source:
-      address: "0xAB1b0f09494d208D403a00ae905DeEea47807012"
+      address: "0xfC238CAf851b86137ce56d6f71ec85FC638f0560"
       abi: SupplyChain
+      startBlock: 9159134
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -24,6 +25,6 @@ dataSources:
           handler: handleAdminAdded
         - event: AdminRemoved(address)
           handler: handleAdminRemoved
-        - event: PackageSnapshotAdded(((address),uint256,string,uint256,bool),uint256)
+        - event: PackageSnapshotAdded(((address),uint256,uint8,string,string,uint256,bool),uint256)
           handler: handlePackageSnapshotAdded
       file: ./src/supply-chain.ts
